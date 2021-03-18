@@ -26,6 +26,12 @@ import (
 	"github.com/lucas-clemente/quic-go/qlog"
 )
 
+// Kaiyu
+// GetCertificatePaths returns the paths to certificate and key
+func GetCertificatePaths() (string, string) {
+	return "pauling.crt", "pauling.key"
+}
+
 type binds []string
 
 func (b binds) String() string {
@@ -94,6 +100,8 @@ func setupHandler(www string) http.Handler {
 
 	mux.HandleFunc("/demo/echo", func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
+		// Kaiyu
+		fmt.Printf("echo body: %s\n", body)
 		if err != nil {
 			fmt.Printf("error reading body while handling /echo: %s\n", err.Error())
 		}
@@ -156,14 +164,19 @@ func main() {
 	} else {
 		logger.SetLogLevel(utils.LogLevelInfo)
 	}
-	logger.SetLogTimeFormat("")
+	logger.SetLogTimeFormat("[Server]")
 
 	if len(bs) == 0 {
 		bs = binds{"localhost:6121"}
 	}
 
 	handler := setupHandler(*www)
-	quicConf := &quic.Config{}
+	quicConf := &quic.Config{
+		// Kaiyu
+		//AcceptToken:  func(_ net.Addr, _ *quic.Token) bool { return true },
+	}
+
+
 	if *enableQlog {
 		quicConf.Tracer = qlog.NewTracer(func(_ logging.Perspective, connID []byte) io.WriteCloser {
 			filename := fmt.Sprintf("server_%x.qlog", connID)
@@ -190,7 +203,7 @@ func main() {
 					Server:     &http.Server{Handler: handler, Addr: bCap},
 					QuicConfig: quicConf,
 				}
-				err = server.ListenAndServeTLS(testdata.GetCertificatePaths())
+				err = server.ListenAndServeTLS(GetCertificatePaths())
 			}
 			if err != nil {
 				fmt.Println(err)

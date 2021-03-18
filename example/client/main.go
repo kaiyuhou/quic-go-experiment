@@ -49,10 +49,11 @@ func main() {
 		keyLog = f
 	}
 
-	pool, err := x509.SystemCertPool()
-	if err != nil {
-		log.Fatal(err)
-	}
+	//pool, err := x509.SystemCertPool()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	pool := x509.NewCertPool()
 	testdata.AddRootCA(pool)
 
 	var qconf quic.Config

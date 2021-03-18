@@ -1,3 +1,47 @@
+# Kaiyu's note
+
+Use the `622ca23d` branch of quic-go, commit at Jan 31, 2021
+
+The `Changelog.md` of this version is not correct. This version is at newer than v0.19.3 version, support QUIC-29/QUIC-32.
+
+This version suppoert `go` 1.14, 1.15, and 1.16
+
+Compatible `Wireshark` version: 3.3.1 (v3.3.1-0-gd64aca7966e2)
+
+## Usage
+
+Server
+```
+go run main.go 
+
+# using -v will increate the latency a lot
+go run main.go -v 
+```
+
+Client
+```
+# kaiyhou_client_go
+go run main.go -insecure -interval 5 -numRequest 5 -keylog=key1.key -v -p https://localhost:6121/demo/echo
+go run main.go ... -body "echo body" https://localhost:6121/demo/echo
+go run main.go ... https://localhost:6162/demo/tiles
+go run main.go ... https://localhost:6121/demo/tile
+
+# kaiyhou_client_tls
+go run main.go -insecure -interval 5 -numRequest 5  https://www.google.com
+
+# kaiyhou_client_tcp
+go run main.go -interval 5 -numRequest 5  http://www.google.com
+```
+
+## Implement `roundTripper.CloseAfterHandshakeConfirmed()` 
+
+Diff
+- http3/client.go
+- http3/roundtrip.go
+- interface.go
+- session.go
+
+
 # A QUIC implementation in pure Go
 
 <img src="docs/quic.png" width=303 height=124>
