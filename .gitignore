@@ -18,3 +18,4 @@ gomock_reflect_*/
 
 # Kaiyu
 .idea/
+example/kaiyhou_client_quic/key1.key

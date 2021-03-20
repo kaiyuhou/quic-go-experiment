@@ -2,7 +2,13 @@
 
 Use the `622ca23d` branch of quic-go, commit at Jan 31, 2021
 
+- The TLS Version for this branch is: `[TLS dev version (WIP)]` (0x51474fff). But for release v0.19.3, the TLS version is `[draft-32 0xcaba7ada draft-29]`. So, we should consider switching to release branch, instead of main branch when we have time.
+
 The `Changelog.md` of this version is not correct. This version is at newer than v0.19.3 version, support QUIC-29/QUIC-32.
+
+Timeline: 
+ - Draft 32: v0.19.0, 11-13-2020
+ - Draft 29: v0.17.1, 06-20-2020
 
 This version suppoert `go` 1.14, 1.15, and 1.16
 

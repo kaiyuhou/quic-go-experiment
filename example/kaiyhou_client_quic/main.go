@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/lucas-clemente/quic-go"
 	"github.com/lucas-clemente/quic-go/http3"
+	"github.com/lucas-clemente/quic-go/internal/protocol"
 	"github.com/lucas-clemente/quic-go/internal/utils"
 	"github.com/lucas-clemente/quic-go/logging"
 	"github.com/lucas-clemente/quic-go/qlog"
@@ -81,6 +82,9 @@ func main() {
 
 	qconf := &quic.Config{
 		TokenStore: tokenStore,
+		Versions:           []protocol.VersionNumber{protocol.VersionDraft32},
+		//, protocol.VersionDraft29, protocol.VersionTLS
+		//Versions: [VersionDraft29, VersionDraft32],
 	}
 
 	if *qlogEnable {

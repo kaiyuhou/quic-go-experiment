@@ -27,7 +27,8 @@ const (
 
 // SupportedVersions lists the versions that the server supports
 // must be in sorted descending order
-var SupportedVersions = []VersionNumber{VersionTLS}
+//var SupportedVersions = []VersionNumber{VersionTLS}
+var SupportedVersions = []VersionNumber{VersionDraft32, VersionDraft29, VersionTLS}
 
 // IsValidVersion says if the version is known to quic-go
 func IsValidVersion(v VersionNumber) bool {
