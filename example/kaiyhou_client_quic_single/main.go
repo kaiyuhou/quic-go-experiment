@@ -54,8 +54,8 @@ func main() {
 	if *verbose {
 		logger.SetLogLevel(utils.LogLevelDebug)
 	} else {
-		logger.SetLogLevel(utils.LogLevelInfo)
-		//logger.SetLogLevel(utils.LogLevelNothing)
+		//logger.SetLogLevel(utils.LogLevelInfo)
+		logger.SetLogLevel(utils.LogLevelNothing)
 	}
 
 	timeFormat := "2006-01-02 15:04:05.000"
