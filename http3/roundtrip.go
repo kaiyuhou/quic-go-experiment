@@ -133,13 +133,26 @@ func (r *RoundTripper) getClient(hostname string, onlyCached bool) (http.RoundTr
 		r.clients = make(map[string]roundTripCloser)
 	}
 
-	client, ok := r.clients[hostname]
+	c, ok := r.clients[hostname]
+
+	// Kaiyu: based on https://github.com/lucas-clemente/quic-go/compare/master...gabrielperezs:reuse-roundTripper-if-client-fails
+	if ok {
+		if _client, valid := c.(*client); valid {
+			ctx := _client.SessionContext()
+			if ctx == nil || ctx.Err() != nil {
+				ok = false
+			}
+		} else {
+			ok = false
+		}
+	}
+
 	if !ok {
 		if onlyCached {
 			return nil, ErrNoCachedConn
 		}
 		var err error
-		client, err = newClient(
+		c, err = newClient(
 			hostname,
 			r.TLSClientConfig,
 			&roundTripperOpts{
@@ -153,9 +166,9 @@ func (r *RoundTripper) getClient(hostname string, onlyCached bool) (http.RoundTr
 		if err != nil {
 			return nil, err
 		}
-		r.clients[hostname] = client
+		r.clients[hostname] = c
 	}
-	return client, nil
+	return c, nil
 }
 
 // Close closes the QUIC connections that this RoundTripper has used

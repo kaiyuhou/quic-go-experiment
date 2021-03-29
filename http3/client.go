@@ -219,6 +219,14 @@ func (c *client) maxHeaderBytes() uint64 {
 	return uint64(c.opts.MaxHeaderBytes)
 }
 
+// Kaiyu: based on https://github.com/lucas-clemente/quic-go/compare/master...gabrielperezs:reuse-roundTripper-if-client-fails
+func (c *client) SessionContext() context.Context {
+	if c.session == nil {
+		return nil
+	}
+	return c.session.Context()
+}
+
 // RoundTrip executes a request and returns a response
 func (c *client) RoundTrip(req *http.Request) (*http.Response, error) {
 	if authorityAddr("https", hostnameFromRequest(req)) != c.hostname {
