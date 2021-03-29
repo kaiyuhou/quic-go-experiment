@@ -11,12 +11,11 @@ import (
 	"log"
 	"mime/multipart"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"strconv"
 	"strings"
 	"sync"
-
-	_ "net/http/pprof"
 
 	"github.com/lucas-clemente/quic-go"
 	"github.com/lucas-clemente/quic-go/http3"
@@ -164,7 +163,10 @@ func main() {
 	} else {
 		logger.SetLogLevel(utils.LogLevelInfo)
 	}
-	logger.SetLogTimeFormat("[Server]")
+
+	timeFormat := "2006-01-02 15:04:05.000"
+	//logger.SetLogTimeFormat("[Server]")
+	logger.SetLogTimeFormat(timeFormat)
 
 	if len(bs) == 0 {
 		bs = binds{":6121"}
