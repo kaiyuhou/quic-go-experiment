@@ -79,13 +79,9 @@ func main() {
 	pool := x509.NewCertPool()
 	AddRootCA(pool)
 
-	tokenGets := make(chan string, 100)
-	tokenPuts := make(chan string, 100)
-	tokenStore := newTokenStore(tokenGets, tokenPuts)
-
 	qconf := &quic.Config{
-		TokenStore: tokenStore,
-		Versions:           []protocol.VersionNumber{protocol.VersionDraft32},
+		TokenStore: quic.NewLRUTokenStore(10, 4),
+		Versions:   []protocol.VersionNumber{protocol.VersionDraft32},
 		//, protocol.VersionDraft29, protocol.VersionTLS
 		//Versions: [VersionDraft29, VersionDraft32],
 	}
@@ -108,12 +104,9 @@ func main() {
 		RootCAs:            pool,
 		InsecureSkipVerify: *insecure,
 		KeyLogWriter:       keyLog,
+		ClientSessionCache: tls.NewLRUClientSessionCache(64),
 		//NextProtos: []string{nextProtoH3},
 	}
-
-	gets := make(chan string, 100)
-	puts := make(chan string, 100)
-	tlcConfig.ClientSessionCache = newClientSessionCache(gets, puts)
 
 	roundTripper := &http3.RoundTripper{
 		TLSClientConfig: tlcConfig,
@@ -124,17 +117,22 @@ func main() {
 		Transport: roundTripper,
 	}
 
+	no0RttCnt := 0
+
 	for i := 0; i < *numRequest; i++ {
 
+		var wg sync.WaitGroup
+		wg.Add(len(urls))
+		startTime := time.Now()
+
 		go func() {
-			var wg sync.WaitGroup
-			wg.Add(len(urls))
-			startTime := time.Now()
 
 			if *printResp {
 				//fmt.Printf("[Before Connection] qconf.TokenStore: %s\n", qconf.TokenStore)
 				//fmt.Printf("[Before Connection] tlcConfig.ClientSessionCache: %s\n", tlcConfig.ClientSessionCache
 			}
+
+			defer roundTripper.CloseAfterHandshakeConfirmed()
 
 			for _, addr := range urls {
 				go func(addr string) {
@@ -154,11 +152,18 @@ func main() {
 					}
 
 					//log.Println("Before DO: ", time.Since(startTime)): 0 ms
+					//fmt.Printf("[After Connection] qconf.TokenStore: %s\n", qconf.TokenStore)
+					//fmt.Printf("[After Connection] tlcConfig.ClientSessionCache: %s\n", tlcConfig.ClientSessionCache)
 
 					rsp, err := hclient.Do(req)
 
 					log.Println(time.Since(startTime)) // This time is a litter longer than the wireshark record.
-																							// Don't know the reason: because of DNS
+					// Don't know the reason: because of DNS
+
+					if time.Since(startTime) > 30*time.Millisecond {
+						no0RttCnt += 1
+						fmt.Println("No 0RTT: ", no0RttCnt)
+					}
 
 					if err != nil {
 						log.Fatal(err)
@@ -189,68 +194,4 @@ func main() {
 		//log.Printf("%s", time.Since(startTime))
 		time.Sleep(time.Duration(*interval) * time.Second)
 	}
-}
-
-// clientSessionCache
-
-type clientSessionCache struct {
-	mutex sync.Mutex
-	cache map[string]*tls.ClientSessionState
-
-	gets chan<- string
-	puts chan<- string
-}
-
-var _ tls.ClientSessionCache = &clientSessionCache{}
-
-func newClientSessionCache(gets, puts chan<- string) *clientSessionCache {
-	return &clientSessionCache{
-		cache: make(map[string]*tls.ClientSessionState),
-		gets:  gets,
-		puts:  puts,
-	}
-}
-
-func (c *clientSessionCache) Get(sessionKey string) (*tls.ClientSessionState, bool) {
-
-	c.gets <- sessionKey
-	c.mutex.Lock()
-	session, ok := c.cache[sessionKey]
-	c.mutex.Unlock()
-
-	return session, ok
-}
-
-func (c *clientSessionCache) Put(sessionKey string, cs *tls.ClientSessionState) {
-	c.puts <- sessionKey
-	c.mutex.Lock()
-	c.cache[sessionKey] = cs
-	c.mutex.Unlock()
-}
-
-// TokenStore
-type tokenStore struct {
-	store quic.TokenStore
-	gets  chan<- string
-	puts  chan<- string
-}
-
-var _ quic.TokenStore = &tokenStore{}
-
-func newTokenStore(gets, puts chan<- string) quic.TokenStore {
-	return &tokenStore{
-		store: quic.NewLRUTokenStore(10, 4),
-		gets:  gets,
-		puts:  puts,
-	}
-}
-
-func (c *tokenStore) Put(key string, token *quic.ClientToken) {
-	c.puts <- key
-	c.store.Put(key, token)
-}
-
-func (c *tokenStore) Pop(key string) *quic.ClientToken {
-	c.gets <- key
-	return c.store.Pop(key)
 }
