@@ -1,5 +1,5 @@
 No,qlog_file,time,roundTrips
-1,client_5ef197a2a7752487.qlog,68.9576ms,# 1st request, for session cache
+1,client_5ef197a2a7752487.qlog,68.9576ms,# 1st request for session cache
 2,client_1893f52581859b62d65cc0.qlog,22.9855ms,
 3,client_efbf3d0d8ca07625.qlog,24.9846ms,
 4,client_515c1c2484c30ccde6cec0008cc1563af1a496.qlog,28.9816ms,
