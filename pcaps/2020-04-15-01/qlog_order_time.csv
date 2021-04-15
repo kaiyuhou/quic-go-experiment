@@ -1,0 +1,51 @@
+No,qlog_file,time,roundTrips
+1,client_5ef197a2a7752487.qlog,68.9576ms,# 1st request, for session cache
+2,client_1893f52581859b62d65cc0.qlog,22.9855ms,
+3,client_efbf3d0d8ca07625.qlog,24.9846ms,
+4,client_515c1c2484c30ccde6cec0008cc1563af1a496.qlog,28.9816ms,
+5,client_9bdccd211ffde89adcf5ad7fec6e565436e6.qlog,23.9853ms,
+6,client_0278f7d4640343122a867fe0b1b2.qlog,24.9851ms,
+7,client_3449640ee267b5a0a1647c85115ac414.qlog,26.9839ms,
+8,client_71da203d3982dcaa256eaeebbda1f6.qlog,47.6261ms,== 2 roundTrips
+9,client_8c4034bf763f9f0f3a54c4ae76ee119440e53c.qlog,24.9845ms,
+10,client_1c35f9672bada62a5c33e33b.qlog,23.9855ms,
+11,client_e148a44dc55345938eb602389377c8312a01.qlog,25.5065ms,
+12,client_553a905264a3f56ca9.qlog,23.9854ms,
+13,client_aee17c52c0a1361acc51aaef0db911f137.qlog,22.9858ms,
+14,client_a99e455b797b832e6888.qlog,24.984ms,
+15,client_1b1319ae96791bba287991651c.qlog,23.9857ms,
+16,client_8eeb36eff0828676.qlog,22.9861ms,
+17,client_7a34b0bd2aa49219b0c82c880a6188ee3822a5d0.qlog,24.9845ms,
+18,client_349f01336751d901cc.qlog,79.9511ms,> 2 roundTrips
+19,client_cb84d1cc7f3171713f255869435685.qlog,24.9857ms,
+20,client_37bcb3c2a6c04c3811e83fc0b233.qlog,23.9854ms,
+21,client_7cdf3eb2adf955bc08897ae5.qlog,21.9861ms,
+22,client_8418419caa6cbc7a.qlog,24.9841ms,
+23,client_fb1e650b1ac43cbc8ab2a58eb9fb.qlog,24.9846ms,
+24,client_2b393b7643a7bb2cec94.qlog,23.985ms,
+25,client_11ac896056acb7eae69df154a1a7b5c475.qlog,67.9575ms,> 2 roundTrips
+26,client_4e217a7217bb9b8684d76a93f7816ebfc01c70.qlog,24.9846ms,
+27,client_ad5d8c5f82d49eb6172e.qlog,48.9702ms,== 2 roundTrips
+28,client_5134deb577396686.qlog,65.9599ms,> 2 roundTrips
+29,client_49d38efff74e7796f929672b23806d0774f1.qlog,23.9852ms,
+30,client_1ac428cfd93b0c1696326f.qlog,24.5371ms,
+31,client_3ea02c2e8171479703c0.qlog,22.9858ms,
+32,client_83ae1468d8893a7b3d694bd2338b83.qlog,23.9858ms,
+33,client_4788d38066da2eda2dfb31d5e628.qlog,26.982ms,
+34,client_5cea47fe5b92b3ebbacb958694a9d9bdba2c.qlog,68.621ms,> 2 roundTrips
+35,client_e17bb69b6185fbb3ed82a7c48f2241ca.qlog,22.9868ms,
+36,client_207fa6dcc9168525.qlog,42.9788ms,== 2 roundTrips
+37,client_a39f11d188112b42a71724.qlog,28.9912ms,
+38,client_cfd4511c31091b078b324394bd58df04.qlog,1.4651578s,> 2 roundTrips
+39,client_c5db7961824f30f5.qlog,175.4335ms,> 2 roundTrips
+40,client_35493951fbf2aface85c694deda894.qlog,71.9555ms,> 2 roundTrips
+41,client_34cbc0cbc6eab37acc8e27051146.qlog,61.9616ms,> 2 roundTrips
+42,client_0601a12a7de648395db0acec48ee21.qlog,26.9833ms,
+43,client_8bb49d5ea542919b13b9.qlog,22.9849ms,
+44,client_b88f9808032777be22.qlog,90.9447ms,> 2 roundTrips
+45,client_a1ccc910cf1325dbcd21.qlog,25.9839ms,
+46,client_8e80efe734b5fb94b9f6.qlog,169.8949ms,> 2 roundTrips
+47,client_667768e0405531911e195c17e5.qlog,49.9701ms,== 2 roundTrips
+48,client_133aa03cc1c6302c5e07f84a18.qlog,22.9854ms,
+49,client_eb38cdc9dbab8d2040f8.qlog,62.9612ms,> 2 roundTrips
+50,client_f5b0cc695efeddb0b604d061422ee9.qlog,27.9815ms,
