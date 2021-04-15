@@ -139,9 +139,10 @@ func main() {
 
 					var req *http.Request
 					if len(*bodyContent) > 0 {
+						//req, _ = http.NewRequest(http3.MethodPOST0RTT, addr, bytes.NewReader([]byte(*bodyContent)))
 						req, _ = http.NewRequest(http.MethodPost, addr, bytes.NewReader([]byte(*bodyContent)))
 						if *printResp {
-							fmt.Printf("[HTTP POST] Addr: %s, Body: %s\n", addr, *bodyContent)
+							fmt.Printf("[HTTP POST0RTT] Addr: %s, Body: %s\n", addr, *bodyContent)
 						}
 					} else {
 						if *printResp {
@@ -160,7 +161,7 @@ func main() {
 					log.Println(time.Since(startTime)) // This time is a litter longer than the wireshark record.
 					// Don't know the reason: because of DNS
 
-					if time.Since(startTime) > 30*time.Millisecond {
+					if time.Since(startTime) > 60*time.Millisecond {
 						no0RttCnt += 1
 						fmt.Println("No 0RTT: ", no0RttCnt)
 					}

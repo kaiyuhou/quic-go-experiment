@@ -24,6 +24,9 @@ import (
 // Note that 0-RTT data doesn't provide replay protection.
 const MethodGet0RTT = "GET_0RTT"
 
+// Kaiyu
+const MethodPOST0RTT = "POST_0RTT"
+
 const (
 	defaultUserAgent              = "quic-go HTTP/3"
 	defaultMaxResponseHeaderBytes = 10 * 1 << 20 // 10 MB
@@ -203,7 +206,7 @@ func (c *client) CloseAfterHandshakeConfirmed() error {
 
 	//fmt.Printf("[client CloseAfterHandshakeConfirmed()] Close: Comfirmed %s\n", c.session.IsHandshakeConfirmed())
 	for {
-		if c.session.IsHandshakeConfirmed(){
+		if c.session.IsHandshakeConfirmed() {
 			break
 		}
 		time.Sleep(time.Microsecond)
@@ -244,6 +247,9 @@ func (c *client) RoundTrip(req *http.Request) (*http.Response, error) {
 	// Immediately send out this request, if this is a 0-RTT request.
 	if req.Method == MethodGet0RTT {
 		req.Method = http.MethodGet
+	} else if req.Method == MethodPOST0RTT {
+		req.Method = http.MethodPost
+		//}
 	} else {
 		// wait for the handshake to complete
 		select {
