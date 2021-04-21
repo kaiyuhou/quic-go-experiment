@@ -20,3 +20,4 @@ gomock_reflect_*/
 .idea/
 example/kaiyhou_client_quic/key1.key
 !pcaps
+!pcaps/*.qlog
