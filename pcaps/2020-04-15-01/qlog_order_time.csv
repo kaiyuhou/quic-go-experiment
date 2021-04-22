@@ -34,7 +34,7 @@ No,qlog_file,time,roundTrips
 33,client_4788d38066da2eda2dfb31d5e628.qlog,26.982ms,
 34,client_5cea47fe5b92b3ebbacb958694a9d9bdba2c.qlog,68.621ms,> 2 roundTrips
 35,client_e17bb69b6185fbb3ed82a7c48f2241ca.qlog,22.9868ms,
-36,client_207fa6dcc9168525.qlog,42.9788ms,== 2 roundTrips
+36,client_207fa6dcc9168525.qlog,42.9788ms,== 2 roundTrips (actually 0rtt)
 37,client_a39f11d188112b42a71724.qlog,28.9912ms,
 38,client_cfd4511c31091b078b324394bd58df04.qlog,1.4651578s,> 2 roundTrips
 39,client_c5db7961824f30f5.qlog,175.4335ms,> 2 roundTrips
